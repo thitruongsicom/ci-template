@@ -20,16 +20,6 @@ spec:
           envFrom:
           - configMapRef:
               name: laravel-skeleton-env
-          - secretRef:
-              name: db-info
-          - secretRef:
-              name: memcached-info
-          - secretRef:
-              name: rabbitmq-info
-          - secretRef:
-              name: redis-info
-          - secretRef:
-              name: secret-pass
           ports:
             - containerPort: 80
           resources:
