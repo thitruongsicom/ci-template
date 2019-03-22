@@ -1,0 +1,73 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: ${PROJECT_NAME}
+  annotations:
+    docker_tag: "${DOCKER_TAG}"
+  name: ${PROJECT_NAME}
+spec:
+  replicas: ${SCALE_MIN}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: ${PROJECT_NAME}
+    spec:
+      containers:
+        - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
+          name: ${PROJECT_NAME}
+          envFrom:
+          - configMapRef:
+              name: laravel-skeleton-env
+          - secretRef:
+              name: db-info
+          - secretRef:
+              name: memcached-info
+          - secretRef:
+              name: rabbitmq-info
+          - secretRef:
+              name: redis-info
+          - secretRef:
+              name: secret-pass
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: ${MEM_MIN}
+              cpu: ${CPU_MIN}
+            limits:
+              memory: ${MEM_MAX}
+              cpu: ${CPU_MAX}
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: ${PROJECT_NAME}
+  name: ${PROJECT_NAME}
+spec:
+  ports:
+    - port: 80
+  selector:
+    service: ${PROJECT_NAME}
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ${PROJECT_NAME}
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: ${PROJECT_NAME}
+  minReplicas: ${SCALE_MIN}
+  maxReplicas: ${SCALE_MAX}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
