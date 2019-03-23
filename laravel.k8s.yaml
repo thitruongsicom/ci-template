@@ -19,7 +19,7 @@ spec:
           name: ${PROJECT_NAME}
           volumeMounts:
           - name: app-secret-config
-            mountPath: "/var/www/"
+            mountPath: "/var/www/secret/"
             readOnly: true
           envFrom:
           - configMapRef:
