@@ -29,6 +29,13 @@ spec:
             limits:
               memory: ${MEM_MAX}
               cpu: ${CPU_MAX}
+      volumes:
+        - name: config
+          configMap:
+            name: ${PROJECT_NAME}-config-map
+            items:
+            - key: laravel-config
+              path: /var/www/.env
       restartPolicy: Always
       imagePullSecrets:
         - name: regcred
