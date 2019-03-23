@@ -17,10 +17,6 @@ spec:
       containers:
         - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
           name: ${PROJECT_NAME}
-          volumeMounts:
-          - name: app-secret-config
-            mountPath: "/var/www/secret/"
-            readOnly: true
           envFrom:
           - configMapRef:
               name: ${PROJECT_NAME}-config-map
@@ -33,10 +29,6 @@ spec:
             limits:
               memory: ${MEM_MAX}
               cpu: ${CPU_MAX}
-      volumes:
-      - name: app-secret-config
-        secret:
-          secretName: ${PROJECT_NAME}-config-secret
       restartPolicy: Always
       imagePullSecrets:
         - name: regcred
