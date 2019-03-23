@@ -37,7 +37,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    service: ${PROJECT_NAME}-service
+    service: ${PROJECT_NAME}
   name: ${PROJECT_NAME}-service
 spec:
   ports:
