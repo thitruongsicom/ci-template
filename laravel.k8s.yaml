@@ -59,7 +59,7 @@ spec:
       - path: /
         backend:
           serviceName: ${PROJECT_NAME}-service
-          servicePort: http
+          servicePort: 80
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
