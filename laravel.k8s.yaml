@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     service: ${PROJECT_NAME}
+    service_framework: laravel
   annotations:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}
