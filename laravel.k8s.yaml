@@ -20,7 +20,7 @@ spec:
           name: ${PROJECT_NAME}
           envFrom:
           - configMapRef:
-              name: ${PROJECT_NAME}-config-map
+              name: ${PROJECT_NAME}
           ports:
             - containerPort: 80
           resources:
