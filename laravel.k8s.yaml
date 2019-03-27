@@ -32,7 +32,7 @@ spec:
               cpu: ${CPU_MAX}
       restartPolicy: Always
       imagePullSecrets:
-        - name: regcred
+        - name: tts
 ---
 apiVersion: v1
 kind: Service
