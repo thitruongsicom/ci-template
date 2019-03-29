@@ -39,12 +39,16 @@ kind: Service
 metadata:
   labels:
     service: ${PROJECT_NAME}
-  name: ${PROJECT_NAME}-service
+  name: ${PROJECT_NAME}
 spec:
   ports:
-    - port: 80
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
   selector:
     service: ${PROJECT_NAME}
+  type: LoadBalancer
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
