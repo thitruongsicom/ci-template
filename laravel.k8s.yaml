@@ -58,7 +58,7 @@ metadata:
       kind:  Mapping
       name:  ${PROJECT_NAME}_mapping
       prefix: /${PROJECT_NAME}/
-      service: ${PROJECT_NAME}.{$KUBE_NAMESPACE}
+      service: ${PROJECT_NAME}.$KUBE_NAMESPACE
 spec:
   selector:
     service: ${PROJECT_NAME}
