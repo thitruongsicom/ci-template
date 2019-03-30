@@ -1,0 +1,31 @@
+
+.kubernetes_deploy:
+  image: go1com/ci-deploy:kubectl
+  stage: deploy
+  tags: ["aws"]
+  dependencies: []
+  before_script:
+    - mkdir -p ~/.kube
+    - echo $KSECRET | base64 -d > ~/.kube/config
+    - export KUBECONFIG=~/.kube/config
+    - kubectl config set-cluster $KCLUSTER
+    - kubectl config set-context $KCONTEXT --namespace=$KUBE_NAMESPACE
+    - kubectl config use-context $KCONTEXT
+    - kubectl cluster-info
+  script:
+    - export DOCKER_TAG=`date +"%Y%m"`-${CI_PIPELINE_ID}
+    - find . -type f  -maxdepth 1 -name "*.k8s.yaml" -print0 | xargs -0 -n1 sh -c 'envsubst < $0 | kubectl apply -f -'
+
+.k8s_deploy_php:
+  extends: .kubernetes_deploy
+  variables:
+    GIT_STRATEGY: none
+    PROJECT_NAME: $CI_PROJECT_NAME
+    MEM_MIN: 32Mi
+    MEM_MAX: 64Mi
+    CPU_MIN: 50m
+    CPU_MAX: 500m
+  script:
+    - wget https://code.go1.com.au/server/ci-template/raw/master/k8s/php.k8s.yaml
+    - export DOCKER_TAG=`date +"%Y%m"`-${CI_PIPELINE_ID}
+    - find . -type f  -maxdepth 1 -name "*.k8s.yaml" -print0 | xargs -0 -n1 sh -c 'envsubst < $0 | kubectl apply -f -'
