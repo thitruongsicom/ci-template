@@ -9,7 +9,11 @@ metadata:
   name: ${PROJECT_NAME}
 spec:
   replicas: ${SCALE_MIN}
-  strategy: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   template:
     metadata:
       labels:
@@ -47,7 +51,7 @@ metadata:
       kind:  Mapping
       name:  ${PROJECT_NAME}_mapping
       prefix: /${PROJECT_NAME}/
-      service: ${PROJECT_NAME}
+      service: ${PROJECT_NAME}:80
 spec:
   ports:
   - name: http
@@ -58,22 +62,6 @@ spec:
     service: ${PROJECT_NAME}
   type: LoadBalancer
   externalTrafficPolicy: Local
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: ${PROJECT_NAME}-ingress
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: ${PROJECT_NAME}.thitruongsi.srv
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: ${PROJECT_NAME}-service
-          servicePort: 80
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
