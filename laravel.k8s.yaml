@@ -40,6 +40,14 @@ metadata:
   labels:
     service: ${PROJECT_NAME}
   name: ${PROJECT_NAME}
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind:  Mapping
+      name:  ${PROJECT_NAME}_mapping
+      prefix: /${PROJECT_NAME}/
+      service: ${PROJECT_NAME}
 spec:
   ports:
   - name: http
