@@ -26,7 +26,14 @@ spec:
           - configMapRef:
               name: ${PROJECT_NAME}
           ports:
-            - containerPort: 80
+          - name: http-api
+            containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 3
           resources:
             requests:
               memory: ${MEM_MIN}
@@ -51,15 +58,14 @@ metadata:
       kind:  Mapping
       name:  ${PROJECT_NAME}_mapping
       prefix: /${PROJECT_NAME}/
-      service: ${PROJECT_NAME}:80
+      service: ${PROJECT_NAME}
 spec:
+  selector:
+    service: ${PROJECT_NAME}
   ports:
   - name: http
     port: 80
-    protocol: TCP
-    targetPort: 80
-  selector:
-    service: ${PROJECT_NAME}
+    targetPort: http-api
   type: LoadBalancer
   externalTrafficPolicy: Local
 ---
