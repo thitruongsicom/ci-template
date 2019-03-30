@@ -49,6 +49,7 @@ spec:
   selector:
     service: ${PROJECT_NAME}
   type: LoadBalancer
+  externalTrafficPolicy: Local
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
