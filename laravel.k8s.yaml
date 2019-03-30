@@ -63,11 +63,11 @@ spec:
   selector:
     service: ${PROJECT_NAME}
   ports:
-  - name: http
+  - name: http-${PROJECT_NAME}
     port: 80
     targetPort: http-api
-  type: LoadBalancer
-  externalTrafficPolicy: Local
+  #type: LoadBalancer
+  #externalTrafficPolicy: Local
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
