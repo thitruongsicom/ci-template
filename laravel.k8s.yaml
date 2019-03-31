@@ -21,7 +21,6 @@ spec:
       labels:
         app: tts-${PROJECT_NAME}
         service: ${PROJECT_NAME}
-        version: ${PROJECT_APP_VERSION}
     spec:
       containers:
         - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
