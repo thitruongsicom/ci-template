@@ -2,7 +2,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
+    app: tts-${PROJECT_NAME}
     service: ${PROJECT_NAME}
+    version: ${PROJECT_APP_VERSION}
     service_framework: laravel
   annotations:
     docker_tag: "${DOCKER_TAG}"
@@ -17,7 +19,9 @@ spec:
   template:
     metadata:
       labels:
+        app: tts-${PROJECT_NAME}
         service: ${PROJECT_NAME}
+        version: ${PROJECT_APP_VERSION}
     spec:
       containers:
         - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
@@ -49,6 +53,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
+    app: tts-${PROJECT_NAME}
     service: ${PROJECT_NAME}
   name: ${PROJECT_NAME}
   annotations:
