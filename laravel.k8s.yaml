@@ -56,14 +56,14 @@ metadata:
     app: tts-${PROJECT_NAME}
     service: ${PROJECT_NAME}
   name: ${PROJECT_NAME}
-  annotations:
-    getambassador.io/config: |
-      ---
-      apiVersion: ambassador/v1
-      kind:  Mapping
-      name:  ${PROJECT_NAME}_mapping
-      prefix: /${PROJECT_NAME}/
-      service: ${PROJECT_NAME}.${KUBE_NAMESPACE}
+  #annotations:
+  #  getambassador.io/config: |
+  #    ---
+  #    apiVersion: ambassador/v1
+  #    kind:  Mapping
+  #    name:  ${PROJECT_NAME}_mapping
+  #    prefix: /${PROJECT_NAME}/
+  #    service: ${PROJECT_NAME}.${KUBE_NAMESPACE}
 spec:
   selector:
     service: ${PROJECT_NAME}
@@ -71,8 +71,8 @@ spec:
   - name: http-${PROJECT_NAME}
     port: 80
     targetPort: http-api
-  type: LoadBalancer
-  externalTrafficPolicy: Local
+  #type: LoadBalancer
+  #externalTrafficPolicy: Local
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
