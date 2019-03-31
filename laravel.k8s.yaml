@@ -4,7 +4,7 @@ metadata:
   labels:
     app: tts-${PROJECT_NAME}
     service: ${PROJECT_NAME}
-    version: ${PROJECT_APP_VERSION}
+    version: "${PROJECT_APP_VERSION}"
     service_framework: laravel
   annotations:
     docker_tag: "${DOCKER_TAG}"
