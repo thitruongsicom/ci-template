@@ -96,7 +96,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: ${PROJECT_NAME}-gateway
+  name: api-gateway
 spec:
   selector:
     istio: ingressgateway # use Istio default gateway implementation
@@ -106,7 +106,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "${PROJECT_NAME}.thitruongsi.svc"
+    - "api.thitruongsi.svc"
 
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -115,17 +115,15 @@ metadata:
   name: ${PROJECT_NAME}-services
 spec:
   hosts:
-  - "${PROJECT_NAME}.thitruongsi.svc"
+  - "api.thitruongsi.svc"
   gateways:
-  - ${PROJECT_NAME}-gateway
+  - api-gateway
   http:
   - match:
     - uri:
-        prefix: /
-    #- uri:
-    #    prefix: /${PROJECT_NAME}/
-    #rewrite:
-    #  uri: /
+        prefix: /${PROJECT_NAME}/
+    rewrite:
+      uri: /
     route:
     - destination:
         host: ${PROJECT_NAME}
