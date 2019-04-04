@@ -38,6 +38,9 @@ spec:
             httpGet:
               path: /health
               port: 80
+              httpHeaders:
+              - name: Content-Type
+                value: application/json
             initialDelaySeconds: 30
             periodSeconds: 3
           resources:
