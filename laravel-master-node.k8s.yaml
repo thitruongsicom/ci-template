@@ -6,7 +6,7 @@ metadata:
     service: ${PROJECT_NAME}
     version: "${PROJECT_APP_VERSION}"
     service_framework: laravel
-    is_master_node: True
+    is_master_node: "true"
   annotations:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}
@@ -18,11 +18,14 @@ spec:
         app: tts-${PROJECT_NAME}-master
         service: ${PROJECT_NAME}
         version: "${PROJECT_APP_VERSION}"
-        is_master_node: True
+        is_master_node: "true"
     spec:
       containers:
         - image: ${CI_REGISTRY_IMAGE}:${DOCKER_TAG}
           name: ${PROJECT_NAME}-master
+          env:
+            - name: CLUSTER_IS_MASTER
+              value: true
           envFrom:
           - configMapRef:
               name: ${PROJECT_NAME}
