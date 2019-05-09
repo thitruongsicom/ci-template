@@ -22,8 +22,6 @@ spec:
         app: tts-${PROJECT_NAME}
         service: ${PROJECT_NAME}
         version: "${PROJECT_APP_VERSION}"
-      #annotations:
-      #  sidecar.istio.io/interceptionMode: 'TPROXY'
     spec:
       containers:
         - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG

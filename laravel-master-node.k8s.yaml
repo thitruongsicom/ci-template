@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: tts-${PROJECT_NAME}
+    service: ${PROJECT_NAME}
+    version: "${PROJECT_APP_VERSION}"
+    service_framework: laravel
+  annotations:
+    docker_tag: "${DOCKER_TAG}"
+  name: ${PROJECT_NAME}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: tts-${PROJECT_NAME}
+        service: ${PROJECT_NAME}
+        version: "${PROJECT_APP_VERSION}"
+    spec:
+      containers:
+        - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
+          name: ${PROJECT_NAME}
+          envFrom:
+          - configMapRef:
+              name: ${PROJECT_NAME}
+          ports:
+          - name: http-api
+            containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+              httpHeaders:
+              - name: Content-Type
+                value: application/json
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          resources:
+            requests:
+              memory: ${MEM_MIN}
+              cpu: ${CPU_MIN}
+            limits:
+              memory: ${MEM_MAX}
+              cpu: ${CPU_MAX}
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: tts
