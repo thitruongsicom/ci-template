@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: tts-${PROJECT_NAME}-master
-    service: ${PROJECT_NAME}
+    service: ${PROJECT_NAME}-master
     version: "${PROJECT_APP_VERSION}"
     service_framework: laravel
     is_master_node: "true"
@@ -19,7 +19,7 @@ spec:
     metadata:
       labels:
         app: tts-${PROJECT_NAME}-master
-        service: ${PROJECT_NAME}
+        service: ${PROJECT_NAME}-master
         version: "${PROJECT_APP_VERSION}"
         is_master_node: "true"
     spec:
