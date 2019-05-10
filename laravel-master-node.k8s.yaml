@@ -9,7 +9,7 @@ metadata:
     is_master_node: "true"
   annotations:
     docker_tag: "${DOCKER_TAG}"
-  name: ${PROJECT_NAME}
+  name: ${PROJECT_NAME}-master
 spec:
   replicas: 1
   selector:
