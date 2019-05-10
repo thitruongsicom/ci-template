@@ -12,6 +12,9 @@ metadata:
   name: ${PROJECT_NAME}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: tts-${PROJECT_NAME}-master
   template:
     metadata:
       labels:
