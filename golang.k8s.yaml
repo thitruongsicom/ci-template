@@ -5,7 +5,7 @@ metadata:
     app: tts-${PROJECT_NAME}
     service: ${PROJECT_NAME}
     version: "${PROJECT_APP_VERSION}"
-    service_framework: nodejs
+    service_framework: echo
   annotations:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}
@@ -31,11 +31,11 @@ spec:
               name: ${PROJECT_NAME}
           ports:
           - name: http-api
-            containerPort: 3000
+            containerPort: 80
           readinessProbe:
             httpGet:
               path: /health
-              port: 3000
+              port: 80
               httpHeaders:
               - name: Content-Type
                 value: application/json
@@ -64,7 +64,7 @@ spec:
     service: ${PROJECT_NAME}
   ports:
   - name: http-${PROJECT_NAME}
-    port: 3000
+    port: 80
     targetPort: http-api
   #type: LoadBalancer
   #externalTrafficPolicy: Local
@@ -121,4 +121,4 @@ spec:
     - destination:
         host: ${PROJECT_NAME}
         port:
-          number: 3000
+          number: 80
