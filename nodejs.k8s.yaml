@@ -51,6 +51,7 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: tts
+        - name: aws
 ---
 apiVersion: v1
 kind: Service
