@@ -54,4 +54,4 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: tts
-        - name: aws
+        - name: ecr
