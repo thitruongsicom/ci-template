@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: tts-${PROJECT_NAME}-master
+    service: ${PROJECT_NAME}-master
+    version: "${PROJECT_APP_VERSION}"
+    service_framework: nodejs
+  annotations:
+    docker_tag: "${DOCKER_TAG}"
+  name: ${PROJECT_NAME}-master
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: tts-${PROJECT_NAME}-master
+        service: ${PROJECT_NAME}-master
+        version: "${PROJECT_APP_VERSION}"
+        is_master_node: "true"
+    spec:
+      containers:
+        - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
+          name: ${PROJECT_NAME}-master
+          env:
+            - name: IS_MASTER
+              value: "true"
+          envFrom:
+          - configMapRef:
+              name: ${PROJECT_NAME}
+          ports:
+          - name: http-api
+            containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+              httpHeaders:
+              - name: Content-Type
+                value: application/json
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          resources:
+            requests:
+              memory: ${MEM_MIN}
+              cpu: ${CPU_MIN}
+            limits:
+              memory: ${MEM_MAX}
+              cpu: ${CPU_MAX}
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: tts
+        - name: ecr
