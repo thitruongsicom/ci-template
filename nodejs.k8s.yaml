@@ -26,6 +26,9 @@ spec:
       containers:
         - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
           name: ${PROJECT_NAME}
+          env:
+            - name: TZ
+              value: "Asia/Ho_Chi_Minh"
           envFrom:
           - configMapRef:
               name: ${PROJECT_NAME}

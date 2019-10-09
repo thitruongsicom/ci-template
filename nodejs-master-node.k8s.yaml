@@ -30,6 +30,8 @@ spec:
           env:
             - name: IS_MASTER
               value: "true"
+            - name: TZ
+              value: "Asia/Ho_Chi_Minh"
           envFrom:
           - configMapRef:
               name: ${PROJECT_NAME}
