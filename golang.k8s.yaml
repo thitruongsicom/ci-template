@@ -40,7 +40,7 @@ spec:
               - name: Content-Type
                 value: application/json
             initialDelaySeconds: 30
-            periodSeconds: 3
+            periodSeconds: 10
           resources:
             requests:
               memory: ${MEM_MIN}
