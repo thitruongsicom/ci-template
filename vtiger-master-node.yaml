@@ -37,11 +37,8 @@ spec:
             containerPort: 80
           readinessProbe:
             httpGet:
-              path: /health
+              path: /health.php
               port: 80
-              httpHeaders:
-              - name: Content-Type
-                value: application/json
             initialDelaySeconds: 30
             periodSeconds: 10
           resources:

@@ -5,7 +5,7 @@ metadata:
     app: tts-${PROJECT_NAME}
     service: ${PROJECT_NAME}
     version: "${PROJECT_APP_VERSION}"
-    service_framework: echo
+    service_framework: laravel
   annotations:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}
@@ -34,11 +34,8 @@ spec:
             containerPort: 80
           readinessProbe:
             httpGet:
-              path: /health
+              path: /health.php
               port: 80
-              httpHeaders:
-              - name: Content-Type
-                value: application/json
             initialDelaySeconds: 30
             periodSeconds: 10
           resources:
