@@ -9,6 +9,9 @@ metadata:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}
 spec:
+  selector:
+    matchLabels:
+      app: tts-${PROJECT_NAME}
   replicas: ${SCALE_MIN}
   strategy:
     type: RollingUpdate
