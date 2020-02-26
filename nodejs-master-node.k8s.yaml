@@ -12,7 +12,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: tts-${PROJECT_NAME}
+      app: tts-${PROJECT_NAME}-master
   replicas: 1
   strategy:
     type: RollingUpdate
