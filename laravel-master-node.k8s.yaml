@@ -49,8 +49,8 @@ spec:
               memory: ${MEM_MIN}
               cpu: ${CPU_MIN}
             limits:
-              memory: ${MEM_MAX}
-              cpu: ${CPU_MAX}
+              memory: ${MEM_MAX_MASTER}
+              cpu: ${CPU_MAX_MASTER}
       restartPolicy: Always
       imagePullSecrets:
         - name: tts
