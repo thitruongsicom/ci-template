@@ -159,7 +159,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: api-gateway
+  name: mqtt-gateway
 spec:
   selector:
     istio: ingressgateway
@@ -169,7 +169,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "api.thitruongsi.svc"
+        - "api-mqtt.thitruongsi.svc"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -177,9 +177,9 @@ metadata:
   name: ${PROJECT_NAME}-services
 spec:
   hosts:
-    - "api.thitruongsi.svc"
+    - "api-mqtt.thitruongsi.svc"
   gateways:
-    - api-gateway
+    - mqtt-gateway
   http:
     - match:
         - uri:
