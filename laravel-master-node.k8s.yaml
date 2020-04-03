@@ -61,14 +61,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: tts-${PROJECT_NAME}
-    service: ${PROJECT_NAME}
-  name: ${PROJECT_NAME}
+    app: tts-${PROJECT_NAME}-master
+    service: ${PROJECT_NAME}-master
+  name: ${PROJECT_NAME}-master
 spec:
   selector:
-    service: ${PROJECT_NAME}
+    service: ${PROJECT_NAME}-master
   ports:
-  - name: http-${PROJECT_NAME}
+  - name: http-${PROJECT_NAME}-master
     port: 80
     targetPort: http-api
 ---
@@ -105,6 +105,6 @@ spec:
       uri: /
     route:
     - destination:
-        host: ${PROJECT_NAME}
+        host: ${PROJECT_NAME}-master
         port:
           number: 80
