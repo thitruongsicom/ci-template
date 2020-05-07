@@ -34,7 +34,7 @@ spec:
             - name: IS_MASTER
               value: "true"
             - name: CLUSTER_IS_MASTER
-              value: 1
+              value: "1"
             - name: TZ
               value: "Asia/Ho_Chi_Minh"
           envFrom:
