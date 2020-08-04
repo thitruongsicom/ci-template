@@ -5,7 +5,7 @@ metadata:
     app: tts-${PROJECT_NAME}-master
     service: ${PROJECT_NAME}-master
     version: "${PROJECT_APP_VERSION}"
-    service_framework: nodejs
+    service_framework: echo
   annotations:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}-master
@@ -14,39 +14,29 @@ spec:
     matchLabels:
       app: tts-${PROJECT_NAME}-master
   replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
   template:
     metadata:
       labels:
         app: tts-${PROJECT_NAME}-master
         service: ${PROJECT_NAME}-master
         version: "${PROJECT_APP_VERSION}"
-        is_master_node: "true"
     spec:
       containers:
         - image: $CI_REGISTRY_IMAGE:$DOCKER_TAG
           name: ${PROJECT_NAME}-master
           env:
-            - name: IS_MASTER
-              value: "true"
             - name: CLUSTER_IS_MASTER
-              value: "1"
-            - name: TZ
-              value: "Asia/Ho_Chi_Minh"
+              value: "yes"  
           envFrom:
           - configMapRef:
               name: ${PROJECT_NAME}
           ports:
           - name: http-api
-            containerPort: 3000
+            containerPort: 80
           readinessProbe:
             httpGet:
               path: /health
-              port: 3000
+              port: 80
               httpHeaders:
               - name: Content-Type
                 value: application/json
@@ -57,9 +47,61 @@ spec:
               memory: ${MEM_MIN}
               cpu: ${CPU_MIN}
             limits:
-              memory: ${MEM_MAX}
-              cpu: ${CPU_MAX}
+              memory: ${MEM_MAX_MASTER}
+              cpu: ${CPU_MAX_MASTER}
       restartPolicy: Always
       imagePullSecrets:
         - name: tts
         - name: ecr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: tts-${PROJECT_NAME}-master
+    service: ${PROJECT_NAME}-master
+  name: ${PROJECT_NAME}-master
+spec:
+  selector:
+    service: ${PROJECT_NAME}-master
+  ports:
+  - name: http-${PROJECT_NAME}-master
+    port: 80
+    targetPort: http-api
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "api.thitruongsi.svc"
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${PROJECT_NAME}-master-service
+spec:
+  hosts:
+  - "api.thitruongsi.svc"
+  gateways:
+  - api-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /${PROJECT_NAME}-master/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: ${PROJECT_NAME}-master
+        port:
+          number: 80
