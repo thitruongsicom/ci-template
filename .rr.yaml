@@ -1,0 +1,43 @@
+version: "2.8"
+
+status:
+  address: 0.0.0.0:2114
+
+metrics:
+  address: 0.0.0.0:2112
+
+http:
+  address: 0.0.0.0:80
+  pool:
+    num_workers: 0
+    max_jobs: 500
+    supervisor:
+      exec_ttl: 30s
+  middleware: ["headers"]
+  headers:
+    response:
+      X-Powered-By: "RoadRunner"
+
+server:
+  command: "php ./vendor/bin/roadrunner-worker"
+
+  env:
+  - APP_BASE_PATH: "./"
+  - LARAVEL_OCTANE: "1"
+
+rpc:
+  listen: tcp://0.0.0.0:6001
+
+logs:
+  mode: production
+  level: warn
+  output: stdout
+  encoding: json
+
+service:
+  supervisord:
+    command: "./start_master.sh"
+    process_num: 1
+    exec_timeout: 0
+    remain_after_exit: true
+    restart_sec: 5
