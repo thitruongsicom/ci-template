@@ -22,7 +22,7 @@ http:
     forbid: [ "" ]
     calculate_etag: false
     weak: false
-    allow: [ ".css", ".js", ".png", ".jpeg", ".jpg", ".html", ".txt"]
+    allow: [ ".css", ".js", ".png", ".jpeg", ".jpg", ".html", ".txt", ".woff2", ".woff", ".ttf", ".gif", ".xml", ".csv"]
 
 server:
   command: "php ./vendor/bin/roadrunner-worker"
