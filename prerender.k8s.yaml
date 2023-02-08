@@ -41,7 +41,7 @@ spec:
               httpHeaders:
               - name: Content-Type
                 value: application/json
-            initialDelaySeconds: 30
+            initialDelaySeconds: 15
             periodSeconds: 10
           resources:
             requests:
