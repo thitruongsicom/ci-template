@@ -36,7 +36,7 @@ spec:
             containerPort: 3000
           readinessProbe:
             httpGet:
-              path: /
+              path: /render?url=https://thitruongsi.com/static/icons/favicon.png
               port: 3000
               httpHeaders:
               - name: Content-Type
