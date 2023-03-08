@@ -12,7 +12,7 @@ http:
     num_workers: 4
     max_jobs: 500
     supervisor:
-      exec_ttl: 30s
+      exec_ttl: 120s
   middleware: ["headers"]
   headers:
     response:
