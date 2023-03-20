@@ -44,6 +44,7 @@ spec:
                 value: application/json
             initialDelaySeconds: 30
             periodSeconds: 30
+            timeoutSeconds: 5
           resources:
             requests:
               memory: ${MEM_MIN}
