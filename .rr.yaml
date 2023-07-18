@@ -10,7 +10,7 @@ http:
   address: 0.0.0.0:80
   pool:
     num_workers: 4
-    max_jobs: 500
+    max_jobs: 10000
     supervisor:
       exec_ttl: 300s
   middleware: ["headers"]
