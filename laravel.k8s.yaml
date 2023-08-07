@@ -10,6 +10,7 @@ metadata:
     docker_tag: "${DOCKER_TAG}"
   name: ${PROJECT_NAME}
 spec:
+  minReadySeconds: 5
   selector:
     matchLabels:
       app: tts-${PROJECT_NAME}
@@ -18,7 +19,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 2
+      maxSurge: 1
   template:
     metadata:
       labels:
