@@ -36,13 +36,26 @@ spec:
           ports:
           - name: http-api
             containerPort: 80
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /health
               port: 80
               httpHeaders:
               - name: Content-Type
                 value: application/json
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command: 
+                - "curl"
+                - "--fail"
+                - "-o"
+                - "/dev/null"
+                - "http://localhost/health"
             initialDelaySeconds: 30
             periodSeconds: 30
             timeoutSeconds: 5
