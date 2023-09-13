@@ -43,7 +43,7 @@ spec:
           ports:
           - name: http-api
             containerPort: 3000
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /health
               port: 3000
@@ -51,7 +51,21 @@ spec:
               - name: Content-Type
                 value: application/json
             initialDelaySeconds: 30
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command: 
+                - "curl"
+                - "--fail"
+                - "-o"
+                - "/dev/null"
+                - "http://localhost:3000/health"
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
           resources:
             requests:
               memory: ${MEM_MIN}
