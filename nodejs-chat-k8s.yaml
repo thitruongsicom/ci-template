@@ -144,7 +144,7 @@ metadata:
   name: ${PROJECT_NAME}
 spec:
   scaleTargetRef:
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     name: ${PROJECT_NAME}
   minReplicas: ${SCALE_MIN}
