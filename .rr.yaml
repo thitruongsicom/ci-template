@@ -1,11 +1,5 @@
 version: "2.8"
 
-status:
-  address: 0.0.0.0:2114
-
-metrics:
-  address: 0.0.0.0:2112
-
 http:
   address: 0.0.0.0:80
   pool:
@@ -14,9 +8,6 @@ http:
     supervisor:
       exec_ttl: 300s
   middleware: ["headers"]
-  headers:
-    response:
-      X-Powered-By: "RoadRunner"
 
 server:
   command: "php ./vendor/bin/roadrunner-worker"
