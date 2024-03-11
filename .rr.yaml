@@ -7,7 +7,6 @@ http:
     max_jobs: 10000
     supervisor:
       exec_ttl: 300s
-  middleware: ["headers"]
 
 server:
   command: "php ./vendor/bin/roadrunner-worker"
