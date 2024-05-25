@@ -40,8 +40,8 @@ spec:
               httpHeaders:
               - name: Content-Type
                 value: application/json
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 60
           resources:
             requests:
               memory: ${MEM_MIN}
