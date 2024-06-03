@@ -35,14 +35,33 @@ spec:
           - name: http-api
             containerPort: 3000
           readinessProbe:
-            httpGet:
-              path: /render?url=https://thitruongsi.com/static/icons/favicon.png
-              port: 3000
-              httpHeaders:
-              - name: Content-Type
-                value: application/json
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            exec:
+              command: 
+                - "curl"
+                - "-m"
+                - "10"
+                - "--fail"
+                - "-o"
+                - "/dev/null"
+                - "http://localhost:3000/https://dropship.thitruongsi.com/robots.txt"
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command: 
+                - "curl"
+                - "-m"
+                - "10"
+                - "--fail"
+                - "-o"
+                - "/dev/null"
+                - "http://localhost:3000/https://dropship.thitruongsi.com/robots.txt"
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
           resources:
             requests:
               memory: ${MEM_MIN}
