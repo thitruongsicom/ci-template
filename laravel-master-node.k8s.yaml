@@ -55,9 +55,22 @@ spec:
                 - "-o"
                 - "/dev/null"
                 - "http://localhost/health"
-            initialDelaySeconds: 30
-            periodSeconds: 30
+            initialDelaySeconds: 60
+            periodSeconds: 60
             timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command: 
+                - "curl"
+                - "--fail"
+                - "-o"
+                - "/dev/null"
+                - "http://localhost/health"
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
           resources:
             requests:
               memory: ${MEM_MIN}
