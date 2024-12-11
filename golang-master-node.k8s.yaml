@@ -65,7 +65,7 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: tts
-        - name: ecr
+        
 ---
 apiVersion: v1
 kind: Service
