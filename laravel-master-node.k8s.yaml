@@ -81,6 +81,7 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: tts
+        - name: gitlab
         
 
 ---
